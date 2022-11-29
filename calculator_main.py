@@ -67,15 +67,18 @@ class Main(QDialog):
         layout_operation2.addWidget(button_root)
         ### =, clear, backspace 버튼 생성
         button_equal = QPushButton("=")
-        button_clear = QPushButton("Clear")
+        button_clearall = QPushButton("C")
+        button_clear = QPushButton("CE")
         button_backspace = QPushButton("Backspace")
 
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
         button_equal.clicked.connect(self.button_equal_clicked)
+        button_clearall.clicked.connect(self.button_clearall_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
+        layout_clear_equal.addWidget(button_clearall)
         layout_clear_equal.addWidget(button_clear)
         layout_clear_equal.addWidget(button_backspace)
         layout_clear_equal.addWidget(button_equal)
@@ -174,8 +177,9 @@ class Main(QDialog):
             self.equation.setText(str(math.sqrt(float(self.answer))))
         self.operator = ''
 
-
-    def button_clear_clicked(self):
+    def button_clear_clicked(self) :
+        self.equation.setText("0")
+    def button_clearall_clicked(self):
         self.answer = ""
         self.operator = ""
         self.equation.setText("0")
