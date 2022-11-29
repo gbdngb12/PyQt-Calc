@@ -123,10 +123,36 @@ class Main(QDialog):
 
     def button_operation_clicked(self, operation):
         #self.answer = self.equation.text()
-        self.operator = operation
-        self.answer = self.equation.text()
-        self.equation.setText("")
-
+        if len(self.operator) == 0 :
+            self.operator = operation
+            self.answer = self.equation.text()
+            self.equation.setText("")
+        else :
+            if self.operator == '+' :
+                self.answer = str(float(self.answer) + float(self.equation.text()))
+                self.equation.setText("")
+            elif self.operator == '-' :
+                self.answer = (str(float(self.answer) - float(self.equation.text())))
+                self.equation.setText("")
+            elif self.operator == '*' :
+                self.answer = (str(float(self.answer) * float(self.equation.text())))
+                self.equation.setText("")
+            elif self.operator == '/' :
+                self.answer = (str(float(self.answer) / float(self.equation.text())))
+                self.equation.setText("")
+            elif self.operator == '%' :
+                self.answer = (str(float(self.answer) % float(self.equation.text())))
+                self.equation.setText("")
+            elif self.operator == '1/x' :
+                self.answer = (str(float(self.answer) ** -1))
+                self.equation.setText("")
+            elif self.operator == 'square' :
+                self.answer = (str(float(self.answer) ** 2))
+                self.equation.setText("")
+            elif self.operator == 'root' :
+                self.answer = (str(math.sqrt(float(self.answer))))
+                self.equation.setText("")
+            self.operator = operation
     def button_equal_clicked(self):
         if self.operator == '+' :
             self.equation.setText(str(float(self.answer) + float(self.equation.text())))
@@ -140,15 +166,17 @@ class Main(QDialog):
         elif self.operator == '%' :
             self.equation.setText(str(float(self.answer) % float(self.equation.text())))
         elif self.operator == '1/x' :
-            self.equation.setText(str(float(self.answer) / float(self.equation.text())))
+            self.equation.setText(str(float(self.answer) ** -1))
         elif self.operator == 'square' :
-            self.equation.setText(str(float(self.answer) ** float(self.equation.text())))
+            self.equation.setText(str(float(self.answer) ** 2))
         elif self.operator == 'root' :
             self.equation.setText(str(math.sqrt(float(self.answer))))
+        self.operator = ''
 
 
     def button_clear_clicked(self):
         self.answer = ""
+        self.operator = ""
         self.equation.setText("")
 
     def button_backspace_clicked(self):
