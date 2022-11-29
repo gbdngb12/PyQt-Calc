@@ -1,7 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
 import math
-import numpy
 
 class Main(QDialog):
     def __init__(self):
