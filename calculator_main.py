@@ -1,5 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
+import math
+import numpy
 
 class Main(QDialog):
     def __init__(self):
@@ -8,43 +10,62 @@ class Main(QDialog):
 
     def init_ui(self):
         main_layout = QVBoxLayout()
+        self.answer = ""
+        self.operator = ""
 
         ### 각 위젯을 배치할 레이아웃을 미리 만들어 둠
         layout_operation = QHBoxLayout()
+        layout_operation2 = QHBoxLayout()
         layout_clear_equal = QHBoxLayout()
         layout_number = QGridLayout()
         layout_equation_solution = QFormLayout()
 
         ### 수식 입력과 답 출력을 위한 LineEdit 위젯 생성
-        label_equation = QLabel("Equation: ")
-        label_solution = QLabel("Number: ")
-        self.equation = QLineEdit("")
-        self.solution = QLineEdit("")
 
-        self.number_display = QLineEdit("")
+        self.equation = QLineEdit("")
         ### layout_equation_solution 레이아웃에 수식, 답 위젯을 추가
         #layout_equation_solution.addRow(label_equation, self.equation)
         #layout_equation_solution.addRow(label_solution, self.solution)
-        layout_equation_solution.addRow(self.number_display)
+        layout_equation_solution.addRow(self.equation)
 
         ### 사칙연상 버튼 생성
         button_plus = QPushButton("+")
         button_minus = QPushButton("-")
         button_product = QPushButton("x")
         button_division = QPushButton("/")
+        #button_clear = QPushButton("CE")
+        #button_c = QPushButton("C")
+        button_remainder = QPushButton("%")
+        button_reciprocal = QPushButton("1/x")
+        button_square = QPushButton("x²")
+        button_root = QPushButton("√x")
+
+
+
+        
 
         ### 사칙연산 버튼을 클릭했을 때, 각 사칙연산 부호가 수식창에 추가될 수 있도록 시그널 설정
         button_plus.clicked.connect(lambda state, operation = "+": self.button_operation_clicked(operation))
         button_minus.clicked.connect(lambda state, operation = "-": self.button_operation_clicked(operation))
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
+        
+        button_remainder.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
+        button_reciprocal.clicked.connect(lambda state, operation = "1/x": self.button_operation_clicked(operation))
+        button_square.clicked.connect(lambda state, operation = "square": self.button_operation_clicked(operation))
+        button_root.clicked.connect(lambda state, operation = "root": self.button_operation_clicked(operation))
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_operation.addWidget(button_plus)
         layout_operation.addWidget(button_minus)
         layout_operation.addWidget(button_product)
         layout_operation.addWidget(button_division)
+        
 
+        layout_operation2.addWidget(button_remainder)
+        layout_operation2.addWidget(button_reciprocal)
+        layout_operation2.addWidget(button_square)
+        layout_operation2.addWidget(button_root)
         ### =, clear, backspace 버튼 생성
         button_equal = QPushButton("=")
         button_clear = QPushButton("Clear")
@@ -85,6 +106,7 @@ class Main(QDialog):
         ### 각 레이아웃을 main_layout 레이아웃에 추가
         main_layout.addLayout(layout_equation_solution)
         main_layout.addLayout(layout_operation)
+        main_layout.addLayout(layout_operation2)
         main_layout.addLayout(layout_clear_equal)
         main_layout.addLayout(layout_number)
 
@@ -100,18 +122,34 @@ class Main(QDialog):
         self.equation.setText(equation)
 
     def button_operation_clicked(self, operation):
-        equation = self.equation.text()
-        equation += operation
-        self.equation.setText(equation)
+        #self.answer = self.equation.text()
+        self.operator = operation
+        self.answer = self.equation.text()
+        self.equation.setText("")
 
     def button_equal_clicked(self):
-        equation = self.equation.text()
-        solution = eval(equation)
-        self.solution.setText(str(solution))
+        if self.operator == '+' :
+            self.equation.setText(str(float(self.answer) + float(self.equation.text())))
+        elif self.operator == '-' :
+            self.equation.setText(str(float(self.answer) - float(self.equation.text())))
+
+        elif self.operator == '*' :
+            self.equation.setText(str(float(self.answer) * float(self.equation.text())))
+        elif self.operator == '/' :
+            self.equation.setText(str(float(self.answer) / float(self.equation.text())))
+        elif self.operator == '%' :
+            self.equation.setText(str(float(self.answer) % float(self.equation.text())))
+        elif self.operator == '1/x' :
+            self.equation.setText(str(float(self.answer) / float(self.equation.text())))
+        elif self.operator == 'square' :
+            self.equation.setText(str(float(self.answer) ** float(self.equation.text())))
+        elif self.operator == 'root' :
+            self.equation.setText(str(math.sqrt(float(self.answer))))
+
 
     def button_clear_clicked(self):
+        self.answer = ""
         self.equation.setText("")
-        self.solution.setText("")
 
     def button_backspace_clicked(self):
         equation = self.equation.text()
