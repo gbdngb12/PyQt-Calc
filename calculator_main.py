@@ -21,7 +21,7 @@ class Main(QDialog):
 
         ### 수식 입력과 답 출력을 위한 LineEdit 위젯 생성
 
-        self.equation = QLineEdit("")
+        self.equation = QLineEdit("0")
         ### layout_equation_solution 레이아웃에 수식, 답 위젯을 추가
         #layout_equation_solution.addRow(label_equation, self.equation)
         #layout_equation_solution.addRow(label_solution, self.solution)
@@ -116,6 +116,8 @@ class Main(QDialog):
     ### functions ###
     #################
     def number_button_clicked(self, num):
+        if self.equation.text() == "0" :
+            self.equation.setText("")
         equation = self.equation.text()
         equation += str(num)
         self.equation.setText(equation)
@@ -176,7 +178,7 @@ class Main(QDialog):
     def button_clear_clicked(self):
         self.answer = ""
         self.operator = ""
-        self.equation.setText("")
+        self.equation.setText("0")
 
     def button_backspace_clicked(self):
         equation = self.equation.text()
