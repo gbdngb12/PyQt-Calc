@@ -2,7 +2,7 @@
 QT Based Calculator
 
 
-![image](https://user-images.githubusercontent.com/104804087/199869853-bd0cb13a-fc75-4e11-b805-39a6c98c47f7.png)
+![image](https://user-images.githubusercontent.com/104804087/205068189-d8fe8010-4992-47a6-9bfe-d7d4c91461a5.png)
 
 ## Install
 Requires pip and PyQt5
